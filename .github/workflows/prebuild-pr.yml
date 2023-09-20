@@ -6,7 +6,7 @@ on:
 jobs:
   prebuild-linux:
     name: Prebuild Binaries for Linux
-    runs-on: casa-magalhaes
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Setup Dependencies
