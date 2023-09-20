@@ -43,8 +43,8 @@ jobs:
       - name: Prebuild
         run: |
           npm run apply-patches
-          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.PREBUILD_TOKEN }}
-          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.GITHUB_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.GITHUB_TOKEN }}
   prebuild-macos:
     name: Prebuild Binaries for macOS
     runs-on: macos-latest
@@ -62,7 +62,7 @@ jobs:
       - name: Prebuild
         run: |
           npm run apply-patches
-          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.GITHUB_TOKEN }}
   prebuild-windows:
     name: Prebuild Binaries for Windows
     runs-on: windows-latest
@@ -80,8 +80,8 @@ jobs:
       - name: Prebuild
         run: |
           npm run apply-patches
-          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.PREBUILD_TOKEN }}
-          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.GITHUB_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.GITHUB_TOKEN }}
 
   npm-publish:
     strategy:
