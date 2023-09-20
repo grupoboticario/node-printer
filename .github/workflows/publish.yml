@@ -26,7 +26,7 @@ jobs:
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
-          gh release upload ${{ github.event.release.tag_name }} ./prebuilds/**/.tar.gz
+          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/.tar.gz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,7 +48,7 @@ jobs:
         run: |
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch x64
-          gh release upload ${{ github.event.release.tag_name }} ./prebuilds/**/.tar.gz
+          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/.tar.gz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   prebuild-windows:
@@ -66,11 +66,12 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Prebuild
+        shell: powershell
         run: |
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
-          gh release upload ${{ github.event.release.tag_name }} ./prebuilds/**/.tar.gz
+          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/.tar.gz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   npm-publish:
