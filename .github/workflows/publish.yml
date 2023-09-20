@@ -1,0 +1,119 @@
+name: Publish NPM CI
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        node-version: [18]
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+      - run: npm cinstall-ci-test
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.INSTALL_GITHUB_TOKEN }}
+
+  prebuild-linux:
+    name: Prebuild Binaries for Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Setup Dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update -y -qq
+          sudo apt-get install -y g++-multilib gcc-multilib libcups2-dev libcups2-dev:i386 libc6-dev-i386 linux-libc-dev linux-libc-dev:i386
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+
+      - run: npm ci
+      - name: Prebuild
+        run: |
+          npm run apply-patches
+          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.GITHUB_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.GITHUB_TOKEN }}
+  prebuild-macos:
+    name: Prebuild Binaries for macOS
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+
+      - run: npm ci
+      - name: Prebuild
+        run: |
+          npm run apply-patches
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.GITHUB_TOKEN }}
+  prebuild-windows:
+    name: Prebuild Binaries for Windows
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+
+      - run: npm ci
+      - name: Prebuild
+        run: |
+          npm run apply-patches
+          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.GITHUB_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.GITHUB_TOKEN }}
+
+  npm-publish:
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        node-version: [18]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+
+      - name: Bump release version
+        if: github.event.release.prerelease != true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version version $TAG)" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=latest" >> "$GITHUB_ENV"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
+      - name: Bump pre-release version
+        if: github.event.release.prerelease == true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version --preid=beta version $TAG)" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=beta" >> "$GITHUB_ENV"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
+      - run: npm publish --tag ${{ env.RELEASE_TAG }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
