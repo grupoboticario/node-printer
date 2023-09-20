@@ -1,0 +1,58 @@
+name: Publish NPM CI
+on:
+  release:
+    types: [created]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        node-version: [18]
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+      - run: npm install-ci-test
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.INSTALL_GITHUB_TOKEN }}
+
+  npm-publish:
+    needs: test
+    strategy:
+      matrix:
+        os: [macos, ubuntu, windows]
+        node-version: [18]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com
+          scope: '@casamagalhaes'
+          cache: npm
+
+      - name: Bump release version
+        if: github.event.release.prerelease != true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version version $TAG)" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=latest" >> "$GITHUB_ENV"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
+      - name: Bump pre-release version
+        if: github.event.release.prerelease == true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version --preid=beta version $TAG)" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=beta" >> "$GITHUB_ENV"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
+      - run: npm ci && npm publish --tag ${{ env.RELEASE_TAG }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
