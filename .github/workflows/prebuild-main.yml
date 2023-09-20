@@ -8,7 +8,7 @@ on:
 jobs:
   prebuild-linux:
     name: Prebuild Binaries for Linux
-    runs-on: casa-magalhaes
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Setup Dependencies
@@ -24,8 +24,8 @@ jobs:
       - name: Prebuild
         run: |
           npm run apply-patches
-          npm run prebuild -- --strip --all --arch ia32 -u ${{ secrets.PREBUILD_TOKEN }}
-          npm run prebuild -- --strip --all --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
   prebuild-macos:
     name: Prebuild Binaries for macOS
     runs-on: macos-latest
@@ -40,7 +40,7 @@ jobs:
       - name: Prebuild
         run: |
           npm run apply-patches
-          npm run prebuild -- --strip --all --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
   prebuild-windows:
     name: Prebuild Binaries for Windows
     runs-on: windows-latest
@@ -55,5 +55,5 @@ jobs:
       - name: Prebuild
         run: |
           npm run apply-patches
-          npm run prebuild -- --strip --all --arch ia32 -u ${{ secrets.PREBUILD_TOKEN }}
-          npm run prebuild -- --strip --all --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch ia32 -u ${{ secrets.PREBUILD_TOKEN }}
+          npm run prebuild -- --strip -t 18.0.0 --arch x64 -u ${{ secrets.PREBUILD_TOKEN }}
