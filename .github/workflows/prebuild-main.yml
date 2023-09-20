@@ -8,7 +8,7 @@ on:
 jobs:
   prebuild-linux:
     name: Prebuild Binaries for Linux
-    runs-on: ubuntu-latest
+    runs-on: casa-magalhaes
     timeout-minutes: 30
     steps:
       - name: Setup Dependencies
@@ -16,10 +16,10 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update -y -qq
           sudo apt-get install -y g++-multilib gcc-multilib libcups2-dev libcups2-dev:i386 libc6-dev-i386 linux-libc-dev linux-libc-dev:i386
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - uses: actions/checkout@v1
+          node-version: 18.x
+      - uses: actions/checkout@v3
       - run: npm i
       - name: Prebuild
         run: |
@@ -29,12 +29,13 @@ jobs:
   prebuild-macos:
     name: Prebuild Binaries for macOS
     runs-on: macos-latest
+    if: false
     timeout-minutes: 30
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - uses: actions/checkout@v1
+          node-version: 18.x
+      - uses: actions/checkout@v3
       - run: npm i
       - name: Prebuild
         run: |
@@ -43,12 +44,13 @@ jobs:
   prebuild-windows:
     name: Prebuild Binaries for Windows
     runs-on: windows-latest
+    if: false
     timeout-minutes: 30
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - uses: actions/checkout@v1
+          node-version: 18.x
+      - uses: actions/checkout@v3
       - run: npm i
       - name: Prebuild
         run: |

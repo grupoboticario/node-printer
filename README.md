@@ -2,13 +2,11 @@ Node Printer Prebuild
 ============
 Native bind printers on POSIX and Windows OS from Node.js, electron and node-webkit.
 
-[![npm version](https://badge.fury.io/js/@thiagoelg%2Fnode-printer.svg)](https://www.npmjs.com/package/@thiagoelg/node-printer) [![Prebuild Binaries and Publish](https://github.com/thiagoelg/node-printer/actions/workflows/prebuild-main.yml/badge.svg)](https://github.com/thiagoelg/node-printer/actions/workflows/prebuild-main.yml)
-
-> It just works with Node 12 because of @thiagoelg in his [PR](https://github.com/tojocky/node-printer/pull/261)
+[![npm version](https://badge.fury.io/js/@casagamagalhaes%2Fnode-printer.svg)](https://www.npmjs.com/package/@casagamagalhaes/node-printer) [![Prebuild Binaries and Publish](https://github.com/casagamagalhaes/node-printer/actions/workflows/prebuild-main.yml/badge.svg)](https://github.com/casagamagalhaes/node-printer/actions/workflows/prebuild-main.yml)
 
 > Prebuild and CI integration courtesy of @ekoeryanto in his [FORK](https://github.com/ekoeryanto/node-printer)
 
-If you have a problem, ask question to [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tojocky/node-printer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or find/create a new [Github issue](https://github.com/thiagoelg/node-printer/issues)
+If you have a problem, ask question to [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tojocky/node-printer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or find/create a new [Github issue](https://github.com/casagamagalhaes/node-printer/issues)
 
 ___
 ### **Below is the original README**
@@ -39,12 +37,12 @@ I was involved in a project where I need to print from Node.JS. This is the reas
 
 ### How to install:
 ```
-npm install @thiagoelg/node-printer
+npm install @casagamagalhaes/node-printer
 ```
 
 ### How to use:
 
-See [examples](https://github.com/thiagoelg/node-printer/tree/main/examples)
+See [examples](https://github.com/casagamagalhaes/node-printer/tree/main/examples)
 
 ### Author(s):
 
@@ -52,7 +50,7 @@ See [examples](https://github.com/thiagoelg/node-printer/tree/main/examples)
 
 ### Contibutors:
 
-* Thiago Lugli, @thiagoelg
+* Thiago Lugli, @casagamagalhaes
 * Eko Eryanto, @ekoeryanto
 
 Feel free to download, test and propose new futures
