@@ -21,6 +21,20 @@ jobs:
           scope: '@casamagalhaes'
           cache: npm
       - run: npm ci
+      - name: Bump release version
+        if: github.event.release.prerelease != true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version version $TAG)" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=latest" >> "$GITHUB_ENV"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+      - name: Bump pre-release version
+        if: github.event.release.prerelease == true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version --preid=beta version $TAG)" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=beta" >> "$GITHUB_ENV"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
       - name: Prebuild
         run: |
           npm run apply-patches
