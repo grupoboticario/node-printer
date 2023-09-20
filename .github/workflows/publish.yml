@@ -21,26 +21,15 @@ jobs:
           scope: '@casamagalhaes'
           cache: npm
       - run: npm ci
-      - name: Bump release version
-        if: github.event.release.prerelease != true
-        run: |
-          echo "NEW_VERSION=$(npm --no-git-tag-version version $TAG)" >> "$GITHUB_ENV"
-          echo "RELEASE_TAG=latest" >> "$GITHUB_ENV"
-        env:
-          TAG: ${{ github.event.release.tag_name }}
-      - name: Bump pre-release version
-        if: github.event.release.prerelease == true
-        run: |
-          echo "NEW_VERSION=$(npm --no-git-tag-version --preid=beta version $TAG)" >> "$GITHUB_ENV"
-          echo "RELEASE_TAG=beta" >> "$GITHUB_ENV"
-        env:
-          TAG: ${{ github.event.release.tag_name }}
       - name: Prebuild
         run: |
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
           gh release upload ${{ github.event.release.tag_name }} ./prebuilds/**/.tar.gz
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   prebuild-macos:
     name: Prebuild Binaries for macOS
     runs-on: macos-latest
@@ -60,6 +49,8 @@ jobs:
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch x64
           gh release upload ${{ github.event.release.tag_name }} ./prebuilds/**/.tar.gz
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   prebuild-windows:
     name: Prebuild Binaries for Windows
     runs-on: windows-latest
@@ -80,6 +71,8 @@ jobs:
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
           gh release upload ${{ github.event.release.tag_name }} ./prebuilds/**/.tar.gz
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   npm-publish:
     runs-on: ubuntu-latest
     needs:
