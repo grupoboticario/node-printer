@@ -78,6 +78,7 @@ jobs:
           echo "RELEASE_TAG=beta" >> "$GITHUB_ENV"
         env:
           TAG: ${{ github.event.release.tag_name }}
-      - run: npm publish --tag ${{ env.RELEASE_TAG }}
+      - run: npm ci
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
