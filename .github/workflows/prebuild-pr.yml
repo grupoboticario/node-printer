@@ -4,12 +4,21 @@ on:
   pull_request:
 
 jobs:
-  prebuild-linux:
-    name: Prebuild Binaries for Linux
-    runs-on: ubuntu-latest
+  build:
+    name: Prebuild Binaries for ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [18.x]
+        os: [
+            ubuntu,
+            # macos,
+            # windows
+          ]
+    runs-on: ${{ matrix.os }}-latest
     timeout-minutes: 30
     steps:
       - name: Setup Dependencies
+        if: matrix.os == 'ubuntu'
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update -y -qq
@@ -21,47 +30,24 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@casamagalhaes'
           cache: npm
-
-      - run: npm ci
-      - name: Prebuild
+      - run: npm install-ci-test
+      - name: Prebuild Unix
+        if: matrix.os != 'windows'
         run: |
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
-  prebuild-macos:
-    name: Prebuild Binaries for macOS
-    runs-on: macos-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          registry-url: https://npm.pkg.github.com
-          scope: '@casamagalhaes'
-          cache: npm
+          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: npm ci
-      - name: Prebuild
-        run: |
-          npm run apply-patches
-          npm run prebuild -- --strip -t 18.0.0 --arch x64
-  prebuild-windows:
-    name: Prebuild Binaries for Windows
-    runs-on: windows-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          registry-url: https://npm.pkg.github.com
-          scope: '@casamagalhaes'
-          cache: npm
-
-      - run: npm ci
-      - name: Prebuild
+      - name: Prebuild Windows
+        if: matrix.os == 'windows'
+        shell: powershell
         run: |
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
+          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
