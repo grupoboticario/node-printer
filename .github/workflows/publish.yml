@@ -30,6 +30,7 @@ jobs:
     name: Prebuild Binaries for macOS
     runs-on: macos-latest
     timeout-minutes: 30
+    if: false
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -47,6 +48,7 @@ jobs:
     name: Prebuild Binaries for Windows
     runs-on: windows-latest
     timeout-minutes: 30
+    if: false
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
