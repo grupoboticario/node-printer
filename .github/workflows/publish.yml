@@ -53,9 +53,6 @@ jobs:
   npm-publish:
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      packages: write
-      contents: read
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -78,7 +75,6 @@ jobs:
           echo "RELEASE_TAG=beta" >> "$GITHUB_ENV"
         env:
           TAG: ${{ github.event.release.tag_name }}
-      - run: npm ci
-      - run: npm publish
+      - run: npm publish --tag ${{ env.RELEASE_TAG }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
