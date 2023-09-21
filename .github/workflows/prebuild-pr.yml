@@ -2,6 +2,7 @@ name: Prebuild Binaries
 
 on:
   pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -9,11 +10,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        os: [
-            ubuntu,
-            # macos,
-            # windows
-          ]
+        os: [ubuntu, macos, windows]
     runs-on: ${{ matrix.os }}-latest
     timeout-minutes: 30
     steps:
@@ -31,23 +28,14 @@ jobs:
           scope: '@casamagalhaes'
           cache: npm
       - run: npm install-ci-test
-      - name: Prebuild Unix
-        if: matrix.os != 'windows'
-        run: |
-          npm run apply-patches
-          npm run prebuild -- --strip -t 18.0.0 --arch ia32
-          npm run prebuild -- --strip -t 18.0.0 --arch x64
-          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
+      - name: Set release version
+        run: npm --no-git-tag-version version $TAG
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Prebuild Windows
-        if: matrix.os == 'windows'
-        shell: powershell
-        run: |
-          npm run apply-patches
-          npm run prebuild -- --strip -t 18.0.0 --arch ia32
-          npm run prebuild -- --strip -t 18.0.0 --arch x64
-          gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+      - name: Apply patches
+        run: npm run apply-patches
+      - name: Build unix binaries 32 bits
+        if: matrix.os != 'macos'
+        run: npm run prebuild -- --strip -t 18.0.0 --arch ia32
+      - name: Build unix binaries 64 bits
+        run: npm run prebuild -- --strip -t 18.0.0 --arch x64
