@@ -34,9 +34,9 @@ jobs:
         run: npm run apply-patches
       - name: Build ${{ matrix.os }} binaries 32 bits
         if: matrix.os != 'macos'
-        run: npm run prebuild -- --strip -t 18.0.0 --arch ia32
+        run: npm run prebuild -- --strip --arch ia32
       - name: Build ${{ matrix.os }} binaries 64 bits
-        run: npm run prebuild -- --strip -t 18.0.0 --arch x64
+        run: npm run prebuild -- --strip --arch x64
       - name: Upload ${{ matrix.os }} binaries
         run: gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
         env:
