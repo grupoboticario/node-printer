@@ -33,12 +33,14 @@ jobs:
       - name: Prebuild Unix
         if: matrix.os != 'windows'
         run: |
+          npm --no-git-tag-version version $TAG
           npm run apply-patches
           npm run prebuild -- --strip -t 18.0.0 --arch ia32
           npm run prebuild -- --strip -t 18.0.0 --arch x64
           gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
 
       - name: Prebuild Windows
         if: matrix.os == 'windows'
