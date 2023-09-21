@@ -44,7 +44,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload ${{ matrix.os }} binaries
         if: matrix.os == 'windows'
-        run: gh release upload ${{ github.event.release.tag_name }} prebuilds\*\*.tar.gz
+        run: gh release upload ${{ github.event.release.tag_name }} (ls prebuilds\*\*.tar.gz)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   npm-publish:
