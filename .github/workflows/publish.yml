@@ -38,7 +38,13 @@ jobs:
       - name: Build ${{ matrix.os }} binaries 64 bits
         run: npm run prebuild -- --strip --arch x64
       - name: Upload ${{ matrix.os }} binaries
+        if: matrix.os != 'windows'
         run: gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload ${{ matrix.os }} binaries
+        if: matrix.os == 'windows'
+        run: gh release upload ${{ github.event.release.tag_name }} prebuilds\*\*.tar.gz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   npm-publish:
