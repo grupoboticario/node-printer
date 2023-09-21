@@ -10,8 +10,8 @@ jobs:
         node-version: [18.x]
         os: [
             ubuntu,
-            macos,
-            windows
+            # macos,
+            # windows
           ]
     runs-on: ${{ matrix.os }}-latest
     timeout-minutes: 30
