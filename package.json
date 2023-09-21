@@ -37,7 +37,7 @@
     "module_name": "node_printer",
     "module_path": "./lib/",
     "host": "https://github.com/casamagalhaes/node-printer/releases/download/",
-    "remote_path": "v{version}"
+    "remote_path": "{version}"
   },
   "licenses": [
     {
