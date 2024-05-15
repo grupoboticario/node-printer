@@ -18,7 +18,11 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update -y -qq
           sudo apt-get install -y g++-multilib gcc-multilib libcups2-dev libcups2-dev:i386 libc6-dev-i386 linux-libc-dev linux-libc-dev:i386
-      - name: Setup Python Dependencies
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pipe
+      - name: Install Python setup tools
         run: pip install setuptools
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
