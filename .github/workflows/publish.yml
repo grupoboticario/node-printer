@@ -39,17 +39,17 @@ jobs:
       - name: Apply patches
         run: npm run apply-patches
       - name: Build ${{ matrix.os }} binaries 32 bits
-        if: matrix.os != 'macos'
+        if: matrix.os != 'macos-13'
         run: npm run prebuild -- --strip --arch ia32
       - name: Build ${{ matrix.os }} binaries 64 bits
         run: npm run prebuild -- --strip --arch x64
       - name: Upload ${{ matrix.os }} binaries
-        if: matrix.os != 'windows'
+        if: matrix.os != 'windows-latest'
         run: gh release upload ${{ github.event.release.tag_name }} prebuilds/**/*.tar.gz
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload ${{ matrix.os }} binaries
-        if: matrix.os == 'windows'
+        if: matrix.os == 'windows-latest'
         run: gh release upload ${{ github.event.release.tag_name }} (ls prebuilds\*\*.tar.gz)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

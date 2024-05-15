@@ -42,7 +42,7 @@ jobs:
       - name: Apply patches
         run: npm run apply-patches
       - name: Build unix binaries 32 bits
-        if: matrix.os != 'macos'
+        if: matrix.os != 'macos-13'
         run: npm run prebuild -- --strip --arch ia32
       - name: Build unix binaries 64 bits
         run: npm run prebuild -- --strip --arch x64
