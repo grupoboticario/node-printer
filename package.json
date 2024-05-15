@@ -23,7 +23,7 @@
     "prebuild": "^12.0.0"
   },
   "engines": {
-    "node": ">= 18.0.0"
+    "node": ">= 20"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
