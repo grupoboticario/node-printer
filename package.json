@@ -1,8 +1,8 @@
 {
-  "name": "@casamagalhaes/node-printer",
+  "name": "@grupoboticario/node-printer",
   "description": "Node.js printer bindings",
   "version": "0.0.0-dev",
-  "homepage": "https://github.com/casamagalhaes/node-printer",
+  "homepage": "https://github.com/grupoboticario/node-printer",
   "author": {
     "name": "Ion Lupascu",
     "url": "http://program-support.co.uk/",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/casamagalhaes/node-printer.git"
+    "url": "git://github.com/grupoboticario/node-printer.git"
   },
   "devDependencies": {
     "node-abi": "^3.47.0",
@@ -36,7 +36,7 @@
   "binary": {
     "module_name": "node_printer",
     "module_path": "./lib/",
-    "host": "https://github.com/casamagalhaes/node-printer/releases/download/",
+    "host": "https://github.com/grupoboticario/node-printer/releases/download/",
     "remote_path": "{version}"
   },
   "licenses": [

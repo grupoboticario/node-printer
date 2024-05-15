@@ -2,11 +2,11 @@ Node Printer Prebuild
 ============
 Native bind printers on POSIX and Windows OS from Node.js, electron and node-webkit.
 
-[![npm version](https://badge.fury.io/js/@casamagalhaes%2Fnode-printer.svg)](https://www.npmjs.com/package/@casamagalhaes/node-printer) [![Prebuild Binaries and Publish](https://github.com/casamagalhaes/node-printer/actions/workflows/prebuild-main.yml/badge.svg)](https://github.com/casamagalhaes/node-printer/actions/workflows/prebuild-main.yml)
+[![npm version](https://badge.fury.io/js/@grupoboticario%2Fnode-printer.svg)](https://www.npmjs.com/package/@grupoboticario/node-printer) [![Prebuild Binaries and Publish](https://github.com/grupoboticario/node-printer/actions/workflows/prebuild-main.yml/badge.svg)](https://github.com/grupoboticario/node-printer/actions/workflows/prebuild-main.yml)
 
 > Prebuild and CI integration courtesy of @ekoeryanto in his [FORK](https://github.com/ekoeryanto/node-printer)
 
-If you have a problem, ask question to [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tojocky/node-printer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or find/create a new [Github issue](https://github.com/casamagalhaes/node-printer/issues)
+If you have a problem, ask question to [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tojocky/node-printer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or find/create a new [Github issue](https://github.com/grupoboticario/node-printer/issues)
 
 ___
 ### **Below is the original README**
@@ -37,12 +37,12 @@ I was involved in a project where I need to print from Node.JS. This is the reas
 
 ### How to install:
 ```
-npm install @casamagalhaes/node-printer
+npm install @grupoboticario/node-printer
 ```
 
 ### How to use:
 
-See [examples](https://github.com/casamagalhaes/node-printer/tree/main/examples)
+See [examples](https://github.com/grupoboticario/node-printer/tree/main/examples)
 
 ### Author(s):
 
@@ -50,7 +50,7 @@ See [examples](https://github.com/casamagalhaes/node-printer/tree/main/examples)
 
 ### Contibutors:
 
-* Thiago Lugli, @casamagalhaes
+* Thiago Lugli, @grupoboticario
 * Eko Eryanto, @ekoeryanto
 
 Feel free to download, test and propose new futures
